@@ -1,0 +1,27 @@
+{
+  "name": "simplechat_frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-scripts": "1.0.14"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JustMaffie/JustMaffie-and-jacob-s-shitty-chat-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JustMaffie/JustMaffie-and-jacob-s-shitty-chat-system/issues"
+  },
+  "homepage": "https://github.com/JustMaffie/JustMaffie-and-jacob-s-shitty-chat-system#readme",
+  "author": "JustMaffie and Jacob Noah",
+  "license": "MIT",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
