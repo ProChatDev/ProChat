@@ -1,6 +1,5 @@
 Backend:
 
-	Create an endpoint, probably /gateway or /gateway/v1 or smth like that, that will be a websocket connection
 	Create an endpoint to register, supply username/password/email, this will return Username, Email and token (token the same as discord pretty much)
 	Create an endpoint to log in, supply username/password or email/password, this will return Username, Email and token (token the same as discord pretty much)
 	Create an endpoint to fetch all messages in a certain room
@@ -8,5 +7,5 @@ Backend:
 
 Frontend:
 	
-	Make sure it works well with the api, supports multiple rooms, and possibly the entire client just in 1 app without any reloading, so if I'd go from the login to chat page, the page doesn't refresh
+	Make sure it works well with the api
 	Store the token in Local Storage
