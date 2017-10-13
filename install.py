@@ -49,9 +49,9 @@ async def install_pip_requirements(requirements):
 	installed_pkgs = [pkg.key for pkg in pip.get_installed_distributions()]
 	for requirement in requirements:
 		if requirement in installed_pkgs:
-			print("Requirement \"{}\" is already satisfied, not installing!".format(requirement))
+			print('Requirement "{}" is already satisfied, not installing!'.format(requirement))
 		else:
-			print("Installing \"{}\"".format(requirement))
+			print('Installing "{}"'.format(requirement))
 			result = not bool(await pip_install(requirement))
 			if not result:
 				print("Failed to install {}: {}".format(requirement, result))
@@ -99,9 +99,9 @@ def copyFiles(files):
 		return
 	for key, val in files.items():
 		if os.path.isfile(val):
-			print("File \"{}\" already exists, not copying".format(val))
+			print('File "{}" already exists, not copying'.format(val))
 		else:
-			print("Copying \"{}\" to \"{}\"".format(key, val))
+			print('Copying "{}" to "{}"'.format(key, val))
 			copyfile(key, val)
 	config['configs'] = False
 	save_config()
