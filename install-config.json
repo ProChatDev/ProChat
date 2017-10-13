@@ -1,6 +1,6 @@
 {
-	"npm_install": true,
-	"pip_install": true,
-	"configs": true,
-	"sql": true
+    "npm_install": false,
+    "pip_install": false,
+    "configs": false,
+    "sql": false
 }
