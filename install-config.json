@@ -1,0 +1,6 @@
+{
+    "npm_install": false,
+    "pip_install": false,
+    "configs": false,
+    "sql": false
+}
