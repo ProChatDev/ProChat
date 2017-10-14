@@ -3,6 +3,8 @@ import json
 from datetime import timedelta
 from functools import update_wrapper, wraps
 from flask_sqlalchemy import SQLAlchemy
+import random, string
+import bcrypt
 
 config = {}
 
@@ -111,9 +113,73 @@ def getAllMessages():
     data['result'] = resultt
     return jsonify(data)
 
+USER_ALREADY_EXISTS_RESPONSE = {
+    "code": 409,
+    "message": "A user with this email or username already exists"
+}
+
+INVALID_CREDENTIALS = {
+    "code": 403,
+    "message": "Invalid Credentials"
+}
+
+def generate_token():
+    token = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for i in range(25))
+    return token
+
 @app.route("/register")
 @crossdomain(origin="*")
 @requires_methods("POST")
+def register():
+    f = request.get_json()
+    if not f:
+        return jsonify({"code": 400, "message": "Bad Request"})
+    username = f.get("username")
+    password = bcrypt.hashpw(f.get("password"), bcrypt.gensalt())
+    email = f.get("email")
+    user = User.query.filter_by(username=username).filter_by(password=password).filter_by(email=email).first()
+    if user is not None:
+        return jsonify(USER_ALREADY_EXISTS_RESPONSE)
+    user = User()
+    token = generate_token()
+    user.username = username
+    user.password = password
+    user.email = email
+    user.token = token
+    db.session.add(user)
+    db.session.commit()
+    result = {}
+    result['id'] = user.id
+    result['username'] = user.username
+    result['token'] = user.token
+    result['email'] = user.email
+    return jsonify(result)
+
+@app.route("/login")
+@crossdomain(origin="*")
+@requires_methods("POST")
+def login():
+    f = request.get_json()
+    if not f:
+        return jsonify({"code": 400, "message": "Bad Request"})
+    username = f.get("username")
+    password = f.get("password")
+    email = f.get("email")
+    user = None
+    if email:
+        user = User.query.filter_by(email=email).first()
+    else:
+        user = User.query.filter_by(username=username).first()
+    if not user:
+        return jsonify(INVALID_CREDENTIALS)
+    if not bcrypt.checkpwd(password, user.password):
+        return jsonify(INVALID_CREDENTIALS)
+    result = {}
+    result['id'] = user.id
+    result['username'] = user.username
+    result['token'] = user.token
+    result['email'] = user.email
+    return jsonify(result)
 
 @app.errorhandler(404)
 def notfound(e):
