@@ -28,7 +28,17 @@ requirements = []
 
 configfiles = copyfiles.values()
 
-config = json.loads(open("install-config.json").read())
+def load_config():
+	path = "install-config.json"
+	if not os.path.isfile(path):
+		print("Creating default installer config")
+		if not os.path.isfile("install-config.json.example"):
+			print("Example install config missing, exiting...")
+			exit("Could not load configuration")
+		copyfile("install-config.json.example", path)
+	return json.loads(open(path).read())
+
+config = load_config()
 
 def save_config():
 	with open("install-config.json", 'w') as outfile:
