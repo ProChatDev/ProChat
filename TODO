@@ -1,8 +1,3 @@
-Backend:
-
-	Create an endpoint to register, supply username/password/email, this will return Username, Email and token (token the same as discord pretty much)
-	Create an endpoint to log in, supply username/password or email/password, this will return Username, Email and token (token the same as discord pretty much)
-
 Frontend:
 	
 	Make sure it works well with the api

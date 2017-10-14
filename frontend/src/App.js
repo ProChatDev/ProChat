@@ -2,17 +2,9 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import $ from 'jquery';
 import './App.css';
-const api = "http://localhost:5000";
-const gurl = "/gateway";
-
 class App extends Component {
   constructor() {
     super();
-    this.thing = function () {
-      $.get(`${api}${gurl}`, function (data, status) {
-        console.log(data);
-      });
-    }
   }
   render() {
     return (
@@ -24,7 +16,6 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <script>{this.thing()}</script>
       </div>
     );
   }
