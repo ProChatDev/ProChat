@@ -7,7 +7,7 @@ from shutil import copyfile
 import pip
 import json
 
-_requirement_files = ["gateway\\requirements.txt", "backend\\requirements.txt", "database\\requirements.txt"]
+_requirement_files = ["gateway\\requirements.txt", "backend\\requirements.txt"]
 requirement_files = []
 for file in _requirement_files:
 	requirement_files.append(os.getcwd() + "\\" + file)
@@ -15,8 +15,7 @@ for file in _requirement_files:
 _copyfiles = {
 	"gateway\\config.json.example": "gateway\\config.json",
 	"frontend\\config.json.example": "frontend\\config.json",
-	"backend\\config.json.example": "backend\\config.json",
-	"database\\config.json.example": "database\\config.json"
+	"backend\\config.json.example": "backend\\config.json"
 }
 copyfiles = {}
 for key, val in _copyfiles.items():
