@@ -22,9 +22,7 @@ async def handler(websocket, path):
 
 	try:
 		msg = await asyncio.wait_for(receive_from_ws(websocket), timeout=10)
-		print(msg)
-		if msg is None:
-			print("msg is none? wat.")
+		if msg == None:
 			await close_on_connect(websocket)
 			return
 
@@ -34,7 +32,12 @@ async def handler(websocket, path):
 	except websockets.exceptions.ConnectionClosed:
 		return
 
-	connected.add(websocket)	
+	connected.add(websocket)
+
+	while True:
+		msg = await receive_from_ws(websocket)
+		if msg is None:
+			break
 
 async def send(ws, message):
 	await ws.send(json.dumps(message))
@@ -46,14 +49,13 @@ async def close_on_connect(ws):
 	}
 	await send(ws, disconnected_payload)
 	try:
-		await ws.close(code=1000, reason="Unauthenticated")
+		await ws.close(code=1001, reason="Unauthenticated")
 	except:
 		pass
 
 async def receive_from_ws(ws):
 	try:
 		msg = await ws.recv()
-		print(msg.__dict__)
 		try:
 			jsonn = json.loads(msg)
 			return jsonn

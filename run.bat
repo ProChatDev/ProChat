@@ -1,0 +1,1 @@
+concurrently "cd backend && python app.py" "cd gateway && python gateway.py"
