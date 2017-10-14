@@ -137,7 +137,7 @@ def register():
     username = f.get("username")
     password = bcrypt.hashpw(f.get("password"), bcrypt.gensalt())
     email = f.get("email")
-    user = User.query.filter_by(username=username).filter_by(password=password).filter_by(email=email).first()
+    user = User.query.filter_by(username=username).filter_by(email=email).first()
     if user is not None:
         return jsonify(USER_ALREADY_EXISTS_RESPONSE)
     user = User()
