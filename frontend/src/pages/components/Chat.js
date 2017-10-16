@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import Messages from './Messages';
+//import Messages from './Messages';
 
 export default class Chatbox extends Component {
-  constructor() {
-    super();
-  }
+  // constructor() {
+  //   super();
+  // }
 
   sendMessage = async (e) => {
-    if (e.key == "Enter") {
+    if (e.key === "Enter") {
       console.log("Works");
     }
   }
