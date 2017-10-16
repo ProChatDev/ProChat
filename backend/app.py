@@ -94,7 +94,7 @@ def register():
     if not f:
         return jsonify({"code": 400, "message": "Bad Request"})
     username = f.get("username")
-    password = bcrypt.hashpw(f.get("password"), bcrypt.gensalt())
+    password = bcrypt.hashpw(f.get("password").encode('utf-8'), bcrypt.gensalt())
     email = f.get("email")
     user = User.query.filter_by(username=username).filter_by(email=email).first()
     if user is not None:
@@ -130,7 +130,7 @@ def login():
         user = User.query.filter_by(username=username).first()
     if not user:
         return jsonify(INVALID_CREDENTIALS)
-    if not bcrypt.checkpwd(password, user.password):
+    if not bcrypt.checkpw(password.encode('utf-8'), user.password):
         return jsonify(INVALID_CREDENTIALS)
     result = {}
     result['id'] = user.id
