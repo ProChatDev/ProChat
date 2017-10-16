@@ -1,4 +1,5 @@
 {
 	"port": 5000,
-	"gateway_url": "http://localhost:4000"
+	"gateway_url": "http://localhost:4000",
+	"frontend_url": "http://localhost:3004"
 }
