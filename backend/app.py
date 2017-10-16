@@ -51,7 +51,7 @@ def requires_methods(allowedMethods:list):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            if not request.method in allowedMethods:
+            if not request.method.upper() in allowedMethods:
                 return jsonify(INVALID_METHOD_RESPONSE)
             return f(*args, **kwargs)
         return decorated_function
