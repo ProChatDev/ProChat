@@ -1,7 +1,10 @@
-#####################		
-# GATEWAY GITIGNORE #		
-#####################		
-		
+#####################
+# GATEWAY GITIGNORE #
+#####################
+
+# Config
+*.json
+
 # Byte-compiled / optimized / DLL files		
 __pycache__/		
 *.py[cod]		
@@ -41,4 +44,3 @@ pip-delete-this-directory.txt
 # Flask stuff:		
 instance/		
 .webassets-cache
-*.json
