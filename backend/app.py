@@ -96,7 +96,7 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600,
         return update_wrapper(wrapped_function, f)
     return decorator
 
-@app.route("/messages")
+@app.route("/api/messages")
 @crossdomain(origin="*")
 @requires_methods("GET")
 def getAllMessages():
@@ -127,7 +127,7 @@ def generate_token():
     token = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for i in range(25))
     return token
 
-@app.route("/register")
+@app.route("/api/register")
 @crossdomain(origin="*")
 @requires_methods("POST")
 def register():
@@ -155,7 +155,7 @@ def register():
     result['email'] = user.email
     return jsonify(result)
 
-@app.route("/login")
+@app.route("/api/login")
 @crossdomain(origin="*")
 @requires_methods("POST")
 def login():
