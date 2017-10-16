@@ -57,7 +57,7 @@ def requires_methods(allowedMethods:list):
         return decorated_function
     return decorator
 
-@app.route("/api/messages")
+@app.route("/api/messages", methods=["GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"])
 @requires_methods("GET")
 def getAllMessages():
     result = Message.query.order_by(Message.timestamp.desc()).limit(50).all()
@@ -87,7 +87,7 @@ def generate_token():
     token = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for i in range(25))
     return token
 
-@app.route("/api/register")
+@app.route("/api/register", methods=["GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"])
 @requires_methods("POST")
 def register():
     f = request.get_json()
@@ -114,7 +114,7 @@ def register():
     result['email'] = user.email
     return jsonify(result)
 
-@app.route("/api/login")
+@app.route("/api/login", methods=["GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"])
 @requires_methods("POST")
 def login():
     f = request.get_json()
