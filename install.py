@@ -93,7 +93,7 @@ CONSTANTS = {
 	"sql_key": "sql_uri"
 }
 
-async def execute_command(command, *, timeout=None, shell=False):
+async def execute_command(command, timeout=None, shell=False):
 	# https://github.com/Cog-Creators/Red-DiscordBot/blob/develop/red.py#L186 thanks red, I modified it a little bit
 	def install():
 		code = subprocess.call(command, shell=shell)
