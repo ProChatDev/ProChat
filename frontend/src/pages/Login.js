@@ -22,7 +22,7 @@ export default class Login extends Component {
       form_data[field] = this.refs[field].value;
 
     $.ajax({
-      url: this.props.api_url,
+      url: this.props.api_url + "/api/login",
       type: 'POST',
       data: {
         "username": form_data.username,

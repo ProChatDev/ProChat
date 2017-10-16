@@ -146,11 +146,6 @@ def notfound(e):
 	data['message'] = "Page not found"
 	return jsonify(data)
 
-@app.after_request
-def cors(response):
-    response.headers['Access-Control-Allow-Origin'] = config['frontend_url']
-    return response
-
 if __name__ == "__main__":
 	# Not to be used for production
 	app.run(port=config.get("port", 5000), debug=True)
