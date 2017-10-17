@@ -1,3 +1,4 @@
 install-config.json
 *.db
 frontend/package-lock.json
+.vscode/
