@@ -90,7 +90,7 @@ async def npm_install():
 	save_config()
 
 CONSTANTS = {
-	"sql_key": "sql_uri"
+	"mongo_key": "mongo_uri"
 }
 
 async def execute_command(command, timeout=None, shell=False):
@@ -115,17 +115,17 @@ def copyFiles(files):
 	config['configs'] = False
 	save_config()
 
-def sql_url():
-	if not config.get("sql", True):
-		print("Not running the sql url installation, its disabled in install-config.json")
+def mongo_url():
+	if not config.get("mongo", True):
+		print("Not running the mongo url installation, its disabled in install-config.json")
 		return
-	url = input("What SQL URI do you want to use?\n>")
+	url = input("What Mongo URI do you want to use?\n>")
 	print(url)
 	for file in configfiles:
 		data = json.loads(open(file).read())
-		data[CONSTANTS['sql_key']] = url
+		data[CONSTANTS['mongo_key']] = url
 		json.dump(data, open(file, "w"), indent=4)
-	config['sql'] = False
+	config['mongo'] = False
 	save_config()
 
 async def install():
@@ -135,8 +135,8 @@ async def install():
 	await install_pip_requirements(requirements)
 	print("Copying configuration files...")
 	copyFiles(copyfiles)
-	print("Setting SQL URL...")
-	sql_url()
+	print("Setting Mongo URL...")
+	mongo_url()
 
 
 loop = asyncio.get_event_loop()  

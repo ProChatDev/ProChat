@@ -15,6 +15,13 @@ connected_payload = {
 	"code": 1
 }
 
+def generate_id():
+    import time
+    f = 1508262499914
+    f2 = int(round(time.time() * 1000))
+    return ((f2 - f) << 20) + ((1<<20)-0)
+
+
 async def handler(websocket, path):
 	global connected
 

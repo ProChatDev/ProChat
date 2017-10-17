@@ -2,7 +2,7 @@ from flask import Flask, jsonify, make_response, request
 import json
 from datetime import timedelta
 from functools import update_wrapper, wraps
-from flask_sqlalchemy import SQLAlchemy
+import pymongo
 import random, string
 import bcrypt
 
@@ -13,34 +13,26 @@ with open("config.json") as json_data:
 	json_data.close()
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = config['sql_uri']
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+db_client = pymongo.MongoClient(config.get("mongo_uri", "mongodb://localhost:27017/"))
+db = db_client[config.get('mongo_database_name', "prochat")]
+users = db.users
+messages = db.messages
 
-class User(db.Model):
-    __tablename__ = "users"
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.Text)
-    token = db.Column(db.Text)
-    email = db.Column(db.Text)
-    password = db.Column(db.Text)
+def generate_id():
+    import time
+    f = 1508262499914
+    f2 = int(round(time.time() * 1000))
+    return ((f2 - f) << 20) + ((1<<20)-0)
 
-    def __repr__(self):
-        return '<User %r>' % self.username
+# class Message(db.Model):
+#     __tablename__ = "messages"
+#     id = db.Column(db.Integer, primary_key=True)
+#     content = db.Column(db.Text)
+#     sender_id = db.Column(db.Integer)
+#     timestamp = db.Column(db.Integer)
 
-class Message(db.Model):
-    __tablename__ = "messages"
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.Text)
-    sender_id = db.Column(db.Integer)
-    timestamp = db.Column(db.Integer)
-
-    def __repr__(self):
-        return '<Message %r>' % self.id
-
-@app.before_first_request
-def before_first_req():
-    db.create_all()
+#     def __repr__(self):
+#         return '<Message %r>' % self.id
 
 INVALID_METHOD_RESPONSE = {
     "code": 405,
@@ -53,15 +45,18 @@ def method_not_allowed(e):
 
 @app.route("/api/messages", methods=["GET"])
 def getAllMessages():
-    result = Message.query.order_by(Message.timestamp.desc()).limit(50).all()
+    result = messages.find({})
     data = {"code": 200}
     resultt = []
     for f in result:
         f2 = {}
-        f2['id'] = f.id
-        f2['content'] = f.content
-        f2['sender_id'] = f.sender_id
-        f2['timestamp'] = f.timestamp
+        f2['id'] = f['id']
+        f2['content'] = f["content"]
+        sender = users.find({"_id":f['sender_id']})
+        f2['sender_id'] = f['sender_id']
+        senderr = {}
+        senderr['username'] = sender['username']
+        f2['timestamp'] = f['timestamp']
         resultt.append(f2)
     data['result'] = resultt
     return jsonify(data)
@@ -95,26 +90,26 @@ def register():
     password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     # TODO If possible, make this one query instead of two
-    user = User.query.filter_by(username=username).first()
+    user = users.find_one({"username":username})
     if user is not None:
         return jsonify(USER_ALREADY_EXISTS_RESPONSE)
-    user = User.query.filter_by(email=email).first()
+    user = users.find_one({"email":email})
     if user is not None:
         return jsonify(USER_ALREADY_EXISTS_RESPONSE)
 
-    user = User()
+    user = {}
     token = generate_token()
-    user.username = username
-    user.password = password
-    user.email = email
-    user.token = token
-    db.session.add(user)
-    db.session.commit()
+    user['_id'] = generate_id()
+    user['username'] = username
+    user['password'] = password
+    user['email'] = email
+    user['token'] = token
+    users.insert_one(user)
     result = {}
-    result['id'] = user.id
-    result['username'] = user.username
-    result['token'] = user.token
-    result['email'] = user.email
+    result['id'] = user['_id']
+    result['username'] = user['username']
+    result['token'] = user['token']
+    result['email'] = user['email']
     return jsonify(result)
 
 @app.route("/api/login", methods=["POST"])
@@ -124,18 +119,20 @@ def login():
         return jsonify({"code": 400, "message": "Bad Request"})
     username = f.get("username")
     password = f.get("password")
-    user = User.query.filter_by(email=username).first()
+    if not username or not password:
+        return jsonify({"code": 400, "message": "Bad Request"})
+    user = users.find_one({"email":username})
     if not user:
-        user = User.query.filter_by(username=username).first()
+        user = users.find_one({"username":username})
     if not user:
         return jsonify(INVALID_CREDENTIALS)
-    if not bcrypt.checkpw(password.encode('utf-8'), user.password):
+    if not bcrypt.checkpw(password.encode('utf-8'), user['password']):
         return jsonify(INVALID_CREDENTIALS)
     result = {}
-    result['id'] = user.id
-    result['username'] = user.username
-    result['token'] = user.token
-    result['email'] = user.email
+    result['id'] = user['_id']
+    result['username'] = user['username']
+    result['token'] = user['token']
+    result['email'] = user['email']
     return jsonify(result)
 
 @app.errorhandler(404)
