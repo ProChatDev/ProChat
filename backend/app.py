@@ -96,9 +96,15 @@ def register():
     username = f.get("username")
     password = bcrypt.hashpw(f.get("password").encode('utf-8'), bcrypt.gensalt())
     email = f.get("email")
-    user = User.query.filter_by(username=username).filter_by(email=email).first()
+
+    # TODO If possible, make this one query instead of two
+    user = User.query.filter_by(username=username).first()
     if user is not None:
         return jsonify(USER_ALREADY_EXISTS_RESPONSE)
+    user = User.query.filter_by(email=email).first()
+    if user is not None:
+        return jsonify(USER_ALREADY_EXISTS_RESPONSE)
+
     user = User()
     token = generate_token()
     user.username = username
