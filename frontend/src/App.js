@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 //import $ from 'jquery';
 import './App.css';
-//import Chat from './pages/components/Chat';
-import Login from './pages/Login';
+//import Chat from './components/Chat';
+import Login from './forms/Login';
+import Register from './forms/Register';
 
-class App extends Component {
+export default class App extends Component {
   // constructor() {
   //   super();
   // }
@@ -17,10 +18,10 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <Login api_url="http://localhost:5000/" />
+        <Login />
+        <br />
+        <Register />
       </div>
     );
   }
 }
-
-export default App;
