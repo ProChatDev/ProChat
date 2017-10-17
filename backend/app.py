@@ -94,8 +94,13 @@ def register():
     if not f:
         return jsonify({"code": 400, "message": "Bad Request"})
     username = f.get("username")
-    password = bcrypt.hashpw(f.get("password").encode('utf-8'), bcrypt.gensalt())
+    _password = f.get("password")
     email = f.get("email")
+
+    if not username or not _password or not email:
+        return jsonify({"code": 400, "message": "Bad Request"})
+
+    password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     # TODO If possible, make this one query instead of two
     user = User.query.filter_by(username=username).first()
