@@ -47,18 +47,11 @@ INVALID_METHOD_RESPONSE = {
     "message": "Method Not Allowed"
 }
 
-def requires_methods(allowedMethods:list):
-    def decorator(f):
-        @wraps(f)
-        def decorated_function(*args, **kwargs):
-            if not request.method.upper() in allowedMethods:
-                return jsonify(INVALID_METHOD_RESPONSE)
-            return f(*args, **kwargs)
-        return decorated_function
-    return decorator
+@app.errorhandler(405)
+def method_not_allowed(e):
+    return jsonify(INVALID_METHOD_RESPONSE)
 
-@app.route("/api/messages", methods=["GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"])
-@requires_methods("GET")
+@app.route("/api/messages", methods=["GET"])
 def getAllMessages():
     result = Message.query.order_by(Message.timestamp.desc()).limit(50).all()
     data = {"code": 200}
@@ -87,8 +80,7 @@ def generate_token():
     token = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for i in range(25))
     return token
 
-@app.route("/api/register", methods=["GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"])
-@requires_methods("POST")
+@app.route("/api/register", methods=["POST"])
 def register():
     f = request.get_json()
     if not f:
@@ -125,8 +117,7 @@ def register():
     result['email'] = user.email
     return jsonify(result)
 
-@app.route("/api/login", methods=["GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"])
-@requires_methods("POST")
+@app.route("/api/login", methods=["POST"])
 def login():
     f = request.get_json()
     if not f:
