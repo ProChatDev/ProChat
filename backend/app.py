@@ -124,11 +124,8 @@ def login():
         return jsonify({"code": 400, "message": "Bad Request"})
     username = f.get("username")
     password = f.get("password")
-    email = f.get("email")
-    user = None
-    if email:
-        user = User.query.filter_by(email=email).first()
-    else:
+    user = User.query.filter_by(email=username).first()
+    if not user:
         user = User.query.filter_by(username=username).first()
     if not user:
         return jsonify(INVALID_CREDENTIALS)
