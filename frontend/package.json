@@ -1,5 +1,5 @@
 {
-  "name": "simplechat_frontend",
+  "name": "prochat_frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -28,6 +28,10 @@
   "proxy": {
     "/api": {
       "target": "http://localhost:5000"
+    },
+    "/gateway": {
+      "target": "ws://localhost:4000",
+      "ws": true
     }
   }
 }
