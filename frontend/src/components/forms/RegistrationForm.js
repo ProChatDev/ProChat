@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 
-export default class Register extends Component {
+export default class RegistrationForm extends Component {
   constructor(props) {
     super(props);
 

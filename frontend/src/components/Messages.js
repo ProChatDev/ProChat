@@ -4,6 +4,4 @@ export default class Messages extends Component {
   constructor() {
     super();
   }
-
-  
 }

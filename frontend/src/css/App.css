@@ -1,0 +1,74 @@
+.PC-logo {
+  animation: PC-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+@keyframes PC-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.PC-title { font-size: 1.5em; }
+
+/* .PC-intro { font-size: large; } */
+
+.PC-header {
+  text-align: center;
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+/* .PC-nav {
+  border: 1px solid red;
+} */
+
+.PC-nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: inline-block;
+  /* border: 1px solid red; */
+}
+
+.PC-nav ul li {
+  float: left;
+  padding: 2px 5px;
+  /* border: 1px solid red; */
+}
+
+.PC-nav ul li:not(:last-child) {
+  margin-right: 5px;
+}
+
+.PC-nav-link {
+  display: block;
+  color: white;
+  transition: background-color .3s;
+}
+
+.PC-nav-link:hover {
+  border-radius: 5px;
+  background-color: rgb(43, 43, 43);
+}
+
+.PC-nav ul li a:link, .PC-nav ul li a:visited {
+  color: white;
+  text-decoration: none;
+}
+
+/* Temporary. The white is very harsh on my eyes. */
+body {
+  background-color: rgb(100, 100, 100);
+}
+
+.login-form, .registration-form {
+  display: block;
+  text-align: center;
+}
+
+.login-form input, .registration-form input {
+  margin-bottom: 10px;
+}
