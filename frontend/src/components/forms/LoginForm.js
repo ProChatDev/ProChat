@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import $ from 'jquery';
 
 export default class LoginForm extends Component {
@@ -9,7 +10,7 @@ export default class LoginForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     // Init state
-    this.state = { message: '' };
+    this.state = { message: '', redirect: false };
   }
 
   // Login handle
@@ -31,7 +32,6 @@ export default class LoginForm extends Component {
       dataType: 'json',
       contentType: 'application/json',
       success: async (res) => {
-        console.log(JSON.stringify(res));
         switch (res.code) {
           case 400:
             this.setState({ message: `${res.message}` });
@@ -46,15 +46,18 @@ export default class LoginForm extends Component {
           default:
             for (const key in res)
               localStorage.setItem(key, res[key]);
+            this.setState({ redirect: true });
         }
       }
     });
   }
 
   render() {
+    const { redirect } = this.state;
+
     return (
       <div>
-        <h3>{this.state.message}</h3>
+        <h3 style={{ textAlign: 'center' }}>{this.state.message}</h3>
         <form onSubmit={this.handleSubmit} className="login-form">
           <h3>Log In</h3>
           <input
@@ -75,6 +78,7 @@ export default class LoginForm extends Component {
           <br />
           <button type="submit">Log In</button>
         </form>
+        {redirect && (<Redirect to="/" />)}
       </div>
     );
   }
