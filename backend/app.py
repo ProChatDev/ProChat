@@ -20,19 +20,9 @@ messages = db.messages
 
 def generate_id():
     import time
-    f = 1508262499914
+    f = 1508320834
     f2 = int(round(time.time() * 1000))
-    return ((f2 - f) << 20) + ((1<<20)-0)
-
-# class Message(db.Model):
-#     __tablename__ = "messages"
-#     id = db.Column(db.Integer, primary_key=True)
-#     content = db.Column(db.Text)
-#     sender_id = db.Column(db.Integer)
-#     timestamp = db.Column(db.Integer)
-
-#     def __repr__(self):
-#         return '<Message %r>' % self.id
+    return ((f2 - f) << 10) + ((1<<10)-0)
 
 INVALID_METHOD_RESPONSE = {
     "code": 405,

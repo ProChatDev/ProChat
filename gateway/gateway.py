@@ -1,6 +1,7 @@
 import websockets
 import asyncio
 import json
+import pymongo
 
 config = {}
 
@@ -10,16 +11,48 @@ with open("config.json") as json_data:
 	config = json.loads(json_data.read())
 	json_data.close()
 
+db_client = pymongo.MongoClient(config.get("mongo_uri", "mongodb://localhost:27017/"))
+db = db_client[config.get('mongo_database_name', "prochat")]
+users = db.users
+messages = db.messages
+
 connected_payload = {
-	"message": "Welcome, please send your authentication message within 10 seconds",
+	"message": "Welcome, please send your authentication token within 10 seconds",
 	"code": 1
 }
 
+# class Message(db.Model):
+#     __tablename__ = "messages"
+#     id = db.Column(db.Integer, primary_key=True)
+#     content = db.Column(db.Text)
+#     sender_id = db.Column(db.Integer)
+#     timestamp = db.Column(db.Integer)
+
+#     def __repr__(self):
+#         return '<Message %r>' % self.id
+
+async def register_message(msg, socket):
+	if not isinstance(pkt, dict):
+		return
+	if not 'content' in pkt:
+		return
+	content = pkt.get("content")
+	if not content:
+		return
+	data = {}
+	data['timestamp'] = int(round(time.time() * 1000))
+	data['_id'] = generate_id()
+	data['sender_id'] = socket.user['_id']
+	data['content'] = content
+	messages.insert_one(data)
+	await send_to_all(json.dumps(data))
+
+
 def generate_id():
     import time
-    f = 1508262499914
+    f = 1508320834
     f2 = int(round(time.time() * 1000))
-    return ((f2 - f) << 20) + ((1<<20)-0)
+    return ((f2 - f) << 10) + ((1<<10)-0)
 
 
 async def handler(websocket, path):
@@ -32,6 +65,13 @@ async def handler(websocket, path):
 		if msg == None:
 			await close_on_connect(websocket)
 			return
+		if not "token" in msg:
+			return await close_on_connect(websocket)
+		token = msg.get("token")
+		user = users.find_one({"token":token})
+		if not user:
+			return await invalid_token(websocket)
+		websocket.user = user
 
 	except asyncio.TimeoutError:
 		await close_on_connect(websocket)
@@ -48,6 +88,17 @@ async def handler(websocket, path):
 
 async def send(ws, message):
 	await ws.send(json.dumps(message))
+
+async def invalid_token(ws):
+	invalid_token_payload = {
+		"message": "Invalid token",
+		"code": 3
+	}
+	await send(ws, invalid_token_payload)
+	try:
+		await ws.close(code=1001, reason="Forbidden")
+	except:
+		pass
 
 async def close_on_connect(ws):
 	disconnected_payload = {
