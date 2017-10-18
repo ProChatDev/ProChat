@@ -14,7 +14,6 @@ for file in _requirement_files:
 
 _copyfiles = {
 	"gateway\\config.json.example": "gateway\\config.json",
-	"frontend\\config.json.example": "frontend\\config.json",
 	"backend\\config.json.example": "backend\\config.json"
 }
 copyfiles = {}
