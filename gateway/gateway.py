@@ -21,16 +21,6 @@ connected_payload = {
 	"code": 1
 }
 
-# class Message(db.Model):
-#     __tablename__ = "messages"
-#     id = db.Column(db.Integer, primary_key=True)
-#     content = db.Column(db.Text)
-#     sender_id = db.Column(db.Integer)
-#     timestamp = db.Column(db.Integer)
-
-#     def __repr__(self):
-#         return '<Message %r>' % self.id
-
 async def register_message(msg, socket):
 	if not isinstance(pkt, dict):
 		return
