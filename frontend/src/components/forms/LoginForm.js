@@ -53,10 +53,8 @@ export default class LoginForm extends Component {
   }
 
   render() {
-    const { redirect } = this.state;
-
     return (
-      <div>
+      <div ref="mtd">
         <h3 style={{ textAlign: 'center' }}>{this.state.message}</h3>
         <form onSubmit={this.handleSubmit} className="login-form">
           <h3>Log In</h3>
@@ -78,7 +76,7 @@ export default class LoginForm extends Component {
           <br />
           <button type="submit">Log In</button>
         </form>
-        {redirect && (<Redirect to="/" />)}
+        {this.refs.mtd && this.state.redirect && (<Redirect to="/" />)}
       </div>
     );
   }
