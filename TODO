@@ -1,4 +1,3 @@
-Frontend:
+Backend + Gateway:
 	
-	Make sure it works well with the api
-	Store the token in Local Storage
+	Move to sanic, this will make me able to merge gateway+backend into one component :D
