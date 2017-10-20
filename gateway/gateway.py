@@ -62,6 +62,7 @@ async def handler(websocket, path):
 		if not user:
 			return await invalid_token(websocket)
 		websocket.user = user
+		await send(websocket({"message":"You have successfully authenticated, you may now start sending messages!", "code":4}))
 
 	except asyncio.TimeoutError:
 		await close_on_connect(websocket)

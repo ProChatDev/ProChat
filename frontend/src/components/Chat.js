@@ -8,6 +8,7 @@ export default class Chatbox extends Component {
 
   sendMessage = async (e) => {
     if (e.key === "Enter") {
+      console.log(e)
       console.log("Works");
     }
   }
