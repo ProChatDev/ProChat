@@ -22,6 +22,7 @@ export default class LoginForm extends Component {
     for (const field in this.refs)
       form_data[field] = this.refs[field].value;
 
+    // POST to API
     $.ajax({
       url: '/api/login',
       type: 'POST',
@@ -64,6 +65,7 @@ export default class LoginForm extends Component {
             type="text"
             ref="username"
             placeholder="Username/Email"
+            required
           />
           <br />
           <input
@@ -72,6 +74,7 @@ export default class LoginForm extends Component {
             type="password"
             ref="password"
             placeholder="Password"
+            required
           />
           <br />
           <button type="submit">Log In</button>

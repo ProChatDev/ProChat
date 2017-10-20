@@ -22,6 +22,7 @@ export default class RegistrationForm extends Component {
     for (const field in this.refs)
       form_data[field] = this.refs[field].value;
 
+    // POST to API
     $.ajax({
       url: '/api/register',
       type: 'POST',
@@ -66,6 +67,7 @@ export default class RegistrationForm extends Component {
             type="email"
             ref="email"
             placeholder="Email"
+            required
           />
           <br />
           <input
@@ -74,6 +76,7 @@ export default class RegistrationForm extends Component {
             type="text"
             ref="username"
             placeholder="Username"
+            required
           />
           <br />
           <input
@@ -82,6 +85,7 @@ export default class RegistrationForm extends Component {
             type="password"
             ref="password"
             placeholder="Password"
+            required
           />
           <br />
           <button type="submit">Register</button>
