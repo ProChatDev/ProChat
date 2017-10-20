@@ -21,7 +21,7 @@ connected_payload = {
 	"code": 1
 }
 
-async def register_message(msg, socket):
+async def register_message(pkt, socket):
 	if not isinstance(pkt, dict):
 		return
 	if not 'content' in pkt:
@@ -76,6 +76,7 @@ async def handler(websocket, path):
 		msg = await receive_from_ws(websocket)
 		if msg is None:
 			break
+		register_message(msg, websocket)
 
 async def send(ws, message):
 	await ws.send(json.dumps(message))
