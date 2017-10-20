@@ -33,8 +33,19 @@ INVALID_METHOD_RESPONSE = {
 def method_not_allowed(e):
     return jsonify(INVALID_METHOD_RESPONSE)
 
+FORBIDDEN_RESPONSE = {
+    "code":403,
+    "message": "Unauthorized"
+}
+
 @app.route("/api/messages", methods=["GET"])
 def getAllMessages():
+    token = request.headers.get("Authorization")
+    if not token:
+        return jsonify(FORBIDDEN_RESPONSE)
+    user = users.find_one({"token":token})
+    if not user:
+        return jsonify(FORBIDDEN_RESPONSE)
     result = messages.find({})
     data = {"code": 200}
     resultt = []
