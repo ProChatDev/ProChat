@@ -146,4 +146,4 @@ def notfound(e):
 
 if __name__ == "__main__":
 	# Not to be used for production
-	app.run(port=config.get("port", 5000), debug=True)
+	app.run(host=config.get("host", "localhost"), port=config.get("port", 5000), debug=True)
