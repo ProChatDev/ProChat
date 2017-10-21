@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Layout from '../components/Layout';
+import Chat from '../components/chat/Chat';
 
 export default class Home extends Component {
   isLoggedIn() {
@@ -19,6 +20,7 @@ export default class Home extends Component {
       return (
         <div>
           <Layout />
+          <Chat />
         </div>
       );
     }

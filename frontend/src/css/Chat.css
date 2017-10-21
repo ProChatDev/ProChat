@@ -1,0 +1,30 @@
+.chat-box {
+  padding-top: 50px;
+  display: block;
+  text-align: center;
+}
+
+/* .chat-form {
+  position: fixed;
+
+  bottom: 0;
+} */
+
+.container {
+  position: absolute;
+  width: 300px;
+  height: 50px;
+  bottom: 0px;
+  left: 50%;
+  margin-left: -150px;
+}
+
+
+/* Messages
+.msg {
+  
+}
+
+.msg-username {
+  float: left;
+} */
