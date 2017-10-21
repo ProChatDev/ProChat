@@ -34,6 +34,7 @@ async def register_message(pkt, socket):
   data['timestamp'] = int(round(time.time() * 1000))
   data['_id'] = generate_id()
   data['sender_id'] = socket.user['_id']
+  data['username'] = socket.user['username']
   data['content'] = content
   messages.insert_one(data)
   await send_to_all(json.dumps(data))
