@@ -46,17 +46,18 @@ def getAllMessages():
     user = users.find_one({"token":token})
     if not user:
         return jsonify(FORBIDDEN_RESPONSE)
-    result = messages.find({})
+    result = messages.find({}).sort("timestamp", pymongo.DESCENDING).limit(50)
     data = {"code": 200}
     resultt = []
     for f in result:
         f2 = {}
-        f2['id'] = f['id']
+        f2['id'] = f['_id']
         f2['content'] = f["content"]
-        sender = users.find({"_id":f['sender_id']})
-        f2['sender_id'] = f['sender_id']
-        senderr = {}
-        senderr['username'] = sender['username']
+        sender = users.find_one({"_id":f['sender_id']})
+        f2['sender'] = {
+            "id":sender['_id'],
+            "username":sender['username']
+        }
         f2['timestamp'] = f['timestamp']
         resultt.append(f2)
     data['result'] = resultt

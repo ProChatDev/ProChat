@@ -29,18 +29,16 @@ export default class Chat extends Component {
         "Authorization": localStorage.getItem('token')
       },
       success: async (res) => {
-        console.log(res);
         if (res.code === 200) {
           // Collect the last several messages for the page
           const messages = [];
-          console.log(res.result);
           for (let i in res.result) {
             messages.push({
-              username: res.result[i].username,
+              username: res.result[i].sender.username,
               content: res.result[i].content,
               timestamp: res.result[i].timestamp,
               id: res.result[i].id,
-              author_id: res.result[i].sender_id
+              author_id: res.result[i].sender.id
             });
           }
           // Set the state
@@ -74,33 +72,37 @@ export default class Chat extends Component {
 
     // Listen for messages from WebSocket
     this.socket.onmessage = (e) => {
-      console.log(`Message from WebSocket: ${e.data}`);
       let data = JSON.parse(e.data);
       switch (data.code) {
         // Successfully connected, send auth token
         case 1:
+          console.log("AUTHENTICATING")
           this.socket.send(JSON.stringify({
             token: localStorage.getItem('token')
           }));
           break;
         // Successfully authenticated, unlock chatbox
         case 4:
+          console.log("AUTHENTICATED, UNLOCKING CHATBOX...")
           const messages = this.state.messages;
           this.setState({
             messages: messages,
             inputDisabled: false
           });
+          document.getElementById("chatinput").focus()
           break;
         default:
           break;
       }
+      if(data.content != null && data.sender != null && data.timestamp != null){
       // Append message to page
-      this.appendMessage({
-        content: data.content,
-        username: data.username,
-        author_id: data.sender_id,
-        timestamp: data.timestamp
-      });
+        this.appendMessage({
+          content: data.content,
+          username: data.sender.username,
+          author_id: data.sender.id,
+          timestamp: data.timestamp
+        });
+      }
     }
   }
 

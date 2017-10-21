@@ -34,7 +34,10 @@ async def register_message(pkt, socket):
   data['timestamp'] = int(round(time.time() * 1000))
   data['_id'] = generate_id()
   data['sender_id'] = socket.user['_id']
-  data['username'] = socket.user['username']
+  data['sender'] = {
+  	"username": socket.user['username'],
+  	"id": socket.user["_id"]
+  }
   data['content'] = content
   messages.insert_one(data)
   await send_to_all(json.dumps(data))
@@ -128,6 +131,8 @@ async def send_to_all(message):
     except:
       pass
       connected.remove(ws)
+
+print(f'STARTING WEBSOCKET SERVER ON PORT {config.get("port", 4000)}')
 
 start_server = websockets.serve(handler, '', config.get("port", 4000))
 

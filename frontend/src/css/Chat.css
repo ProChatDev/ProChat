@@ -4,6 +4,11 @@
   text-align: center;
 }
 
+.messages {
+  overflow:auto;
+  height:75%;
+}
+
 /* .chat-form {
   position: fixed;
 

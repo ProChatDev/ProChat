@@ -33,6 +33,7 @@ export default class Input extends Component {
             onChange={this.inputHandler}
             className="chat-input"
             disabled={this.props.disabled}
+            id="chatinput"
             required
           />
         </form>
