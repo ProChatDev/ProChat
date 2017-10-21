@@ -11,10 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JustMaffie/JustMaffie-and-jacob-s-shitty-chat-system.git"
+    "url": "git+https://github.com/JustMaffie/ProChat.git"
   },
   "bugs": {
-    "url": "https://github.com/JustMaffie/JustMaffie-and-jacob-s-shitty-chat-system/issues"
+    "url": "https://github.com/JustMaffie/ProChat/issues"
   },
   "author": "JustMaffie and Jacob Noah",
   "license": "MIT",
