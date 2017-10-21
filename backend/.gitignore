@@ -1,46 +1,46 @@
-#####################		
-# BACKEND GITIGNORE #		
-#####################		
+#####################
+# BACKEND GITIGNORE #
+#####################
 
 # Config
 *.json
 
-# Byte-compiled / optimized / DLL files		
-__pycache__/		
-*.py[cod]		
-*$py.class		
-*.pyc		
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Translations
+*.mo
+*.pot
 		
-# C extensions		
-*.so		
-		
-# Distribution / packaging		
-.Python		
-env/		
-build/		
-develop-eggs/		
-dist/		
-downloads/		
-eggs/		
-.eggs/		
-lib/		
-lib64/		
-parts/		
-sdist/		
-var/		
-wheels/		
-*.egg-info/		
-.installed.cfg		
-*.egg		
-		
-# Installer logs		
-pip-log.txt		
-pip-delete-this-directory.txt		
-		
-# Translations		
-*.mo		
-*.pot		
-		
-# Flask stuff:		
-instance/		
+# Flask stuff:
+instance/
 .webassets-cache
