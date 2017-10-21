@@ -1,4 +1,5 @@
 {
+    "host": "localhost",
 	"port": 5000,
     "mongo_database_name": "prochat"
 }
