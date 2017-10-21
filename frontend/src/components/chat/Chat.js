@@ -1,3 +1,7 @@
+/*
+  Bit of credit: https://medium.com/@coderacademy/you-can-build-an-fb-messenger-style-chat-app-with-reactjs-heres-how-intermediate-211b523838ad
+*/
+
 import React, { Component } from 'react';
 import $ from 'jquery';
 import Input from './Input';
