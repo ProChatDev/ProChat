@@ -40,7 +40,6 @@ async def register_message(pkt, socket):
 
 
 def generate_id():
-    import time
     f = 1508320834
     f2 = int(round(time.time() * 1000))
     return ((f2 - f) << 10) + ((1<<10)-0)
