@@ -33,7 +33,6 @@ async def register_message(pkt, socket):
   data = {}
   data['timestamp'] = int(round(time.time() * 1000))
   data['_id'] = generate_id()
-  data['sender_id'] = socket.user['_id']
   data['sender'] = {
   	"username": socket.user['username'],
   	"id": socket.user["_id"]
