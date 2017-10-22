@@ -34,14 +34,16 @@ export default class Chat extends Component {
           const messages = [];
           for (let i in res.result) {
             messages.push({
-              username: res.result[i].sender.username,
               content: res.result[i].content,
+              author: {
+                username: res.result[i].sender.username,
+                id: res.result[i].sender.id
+              },
               timestamp: res.result[i].timestamp,
-              id: res.result[i].id,
-              author_id: res.result[i].sender.id
+              id: res.result[i].id
             });
           }
-          // Set the state
+          // Enable input
           this.setState({
             messages: messages,
             inputDisabled: true
@@ -94,13 +96,16 @@ export default class Chat extends Component {
         default:
           break;
       }
-      if(data.content != null && data.sender != null && data.timestamp != null){
-      // Append message to page
+      if (data.content && data.sender && data.timestamp) {
+        // Append message to page
         this.appendMessage({
           content: data.content,
-          username: data.sender.username,
-          author_id: data.sender.id,
-          timestamp: data.timestamp
+          author: {
+            username: data.sender.username,
+            id: data.sender.id
+          },
+          timestamp: data.timestamp,
+          id: data.id
         });
       }
     }

@@ -2,11 +2,12 @@
   padding-top: 50px;
   display: block;
   text-align: center;
+  /* border: 1px solid red; */
 }
 
 .messages {
-  overflow:auto;
-  height:75%;
+  overflow: auto;
+  height: 75%;
 }
 
 /* .chat-form {
@@ -15,8 +16,11 @@
   bottom: 0;
 } */
 
+/* Input container */
 .container {
-  position: absolute;
+  position: relative;
+  margin-top: 25px;
+  /* border: 1px solid red; */
   width: 300px;
   height: 50px;
   bottom: 0px;
@@ -24,12 +28,11 @@
   margin-left: -150px;
 }
 
-
 /* Messages
 .msg {
   
-}
+} */
 
 .msg-username {
-  float: left;
-} */
+
+}

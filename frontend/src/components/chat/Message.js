@@ -7,15 +7,9 @@ export default class Messages extends Component {
 
     return (
       <div className={`msg ${msgSelf}`}>
-        <div className="msg-username">
-          { this.props.username }
-        </div>
-        <div className="msg-content" style={{wordWrap: 'break-word'}}>
-          { this.props.content }
-        </div>
-        <div className="msg-timestamp">
-          {msgDate}
-        </div>
+        <span className="msg-username">{ this.props.username }</span>
+        <span className="msg-timestamp">{msgDate}</span>
+        <div className="msg-content" style={{wordWrap: 'break-word'}}>{ this.props.content }</div>
       </div>
     );
   }

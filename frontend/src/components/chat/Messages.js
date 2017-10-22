@@ -13,7 +13,7 @@ export default class Messages extends Component {
       return (
         <Message
           key={i}
-          username={m.username}
+          username={m.author.username}
           content={m.content}
           timestamp={m.timestamp}
           self={m.self}

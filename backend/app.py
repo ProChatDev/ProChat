@@ -43,24 +43,25 @@ def getAllMessages():
     token = request.headers.get("Authorization")
     if not token:
         return jsonify(FORBIDDEN_RESPONSE)
-    user = users.find_one({"token":token})
+    user = users.find_one({ "token": token })
     if not user:
         return jsonify(FORBIDDEN_RESPONSE)
     result = messages.find({}).sort("timestamp", pymongo.DESCENDING).limit(50)
-    data = {"code": 200}
+    data = { "code": 200 }
     resultt = []
     for f in result:
         f2 = {}
         f2['id'] = f['_id']
         f2['content'] = f["content"]
-        sender = users.find_one({"_id":f['sender_id']})
+        sender = users.find_one({ "_id": f['sender']['id'] })
         f2['sender'] = {
-            "id":sender['_id'],
-            "username":sender['username']
+            "id": sender['_id'],
+            "username": sender['username']
         }
         f2['timestamp'] = f['timestamp']
         resultt.append(f2)
     data['result'] = resultt
+    data['result'] = tuple(reversed(resultt))
     return jsonify(data)
 
 USER_ALREADY_EXISTS_RESPONSE = {
@@ -81,21 +82,21 @@ def generate_token():
 def register():
     f = request.get_json()
     if not f:
-        return jsonify({"code": 400, "message": "Bad Request"})
+        return jsonify({ "code": 400, "message": "Bad Request" })
     username = f.get("username")
     _password = f.get("password")
     email = f.get("email")
 
     if not username or not _password or not email:
-        return jsonify({"code": 400, "message": "Bad Request"})
+        return jsonify({ "code": 400, "message": "Bad Request" })
 
     password = bcrypt.hashpw(_password.encode('utf-8'), bcrypt.gensalt())
 
     # TODO If possible, make this one query instead of two
-    user = users.find_one({"username":username})
+    user = users.find_one({ "username": username })
     if user is not None:
         return jsonify(USER_ALREADY_EXISTS_RESPONSE)
-    user = users.find_one({"email":email})
+    user = users.find_one({ "email": email })
     if user is not None:
         return jsonify(USER_ALREADY_EXISTS_RESPONSE)
 
@@ -118,14 +119,14 @@ def register():
 def login():
     f = request.get_json()
     if not f:
-        return jsonify({"code": 400, "message": "Bad Request"})
+        return jsonify({ "code": 400, "message": "Bad Request" })
     username = f.get("username")
     password = f.get("password")
     if not username or not password:
-        return jsonify({"code": 400, "message": "Bad Request"})
-    user = users.find_one({"email":username})
+        return jsonify({ "code": 400, "message": "Bad Request" })
+    user = users.find_one({ "email": username })
     if not user:
-        user = users.find_one({"username":username})
+        user = users.find_one({ "username": username })
     if not user:
         return jsonify(INVALID_CREDENTIALS)
     if not bcrypt.checkpw(password.encode('utf-8'), user['password']):
