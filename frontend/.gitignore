@@ -12,6 +12,7 @@ config.json
 /coverage
 
 # production
+package.json
 /build
 
 # misc
