@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import Input from './Input';
 import Messages from './Messages';
-import '../../css/Chat.css';
+import '../../../css/Chat.css';
 
 export default class Chat extends Component {
   constructor(props) {

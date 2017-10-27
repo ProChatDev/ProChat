@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Message from './Message';
-import '../../css/Chat.css';
+import '../../../css/Chat.css';
 
 export default class Messages extends Component {
   componentDidUpdate() {
