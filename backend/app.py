@@ -146,5 +146,5 @@ def notfound(e):
 	return jsonify(data)
 
 if __name__ == "__main__":
-	# Not to be used for production
+	# debug=True not to be used for production
 	app.run(host=config.get("host", "localhost"), port=config.get("port", 5000), debug=True)
