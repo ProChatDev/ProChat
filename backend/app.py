@@ -34,7 +34,7 @@ def method_not_allowed(e):
     return jsonify(INVALID_METHOD_RESPONSE)
 
 FORBIDDEN_RESPONSE = {
-    "code":403,
+    "code": 403,
     "message": "Unauthorized"
 }
 
